@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Main Content - Game On</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Reset & Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Header */
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      border-bottom: 2px solid #FF7A00;
+      padding: 1rem 2rem;
+      text-align: center;
+      animation: fadeInDown 1s ease-out forwards;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      color: #FF7A00;
+      margin-bottom: 0.3rem;
+    }
+    header nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      gap: 2rem;
+    }
+    header nav ul li {
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    header nav ul li:hover {
+      color: #FF7A00;
+    }
+    /* Hero Section */
+    .hero {
+      background: url('https://source.unsplash.com/featured/?gaming,technology') no-repeat center center/cover;
+      min-height: 65vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1.5s ease-out forwards;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 1rem;
+      animation: fadeInUp 1s ease-out forwards, pulse 3s infinite;
+    }
+    .hero-content h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #FF7A00;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+      animation-delay: 0.3s;
+    }
+    .btn {
+      display: inline-block;
+      background: #FF7A00;
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 5px;
+      margin-top: 1rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      background: #ff9d42;
+    }
+    /* Section Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    /* Section Styles */
+    .section {
+      padding: 2rem 0;
+      border-bottom: 1px solid #333;
+      animation: fadeInUp 1s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .section:nth-child(odd) {
+      background: rgba(255, 122, 0, 0.05);
+    }
+    .section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: #FF7A00;
+      border-bottom: 2px solid #FF7A00;
+      display: inline-block;
+      padding-bottom: 0.3rem;
+    }
+    .section p {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    /* Featured Games Section */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .game-card {
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid #444;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(255, 122, 0, 0.7);
+    }
+    .game-card img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .game-card:hover img {
+      transform: scale(1.05);
+    }
+    .game-card .card-content {
+      padding: 1rem;
+    }
+    .game-card h3 {
+      font-size: 1.4rem;
+      color: #FF7A00;
+      margin-bottom: 0.5rem;
+    }
+    .game-card p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+    /* Latest News Section */
+    .news {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    .news-article {
+      flex: 1 1 300px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .news-article:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(255, 122, 0, 0.7);
+    }
+    .news-article h3 {
+      font-size: 1.5rem;
+      color: #FF7A00;
+      margin-bottom: 0.5rem;
+    }
+    .news-article p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 1rem 2rem;
+      text-align: center;
+      border-top: 2px solid #FF7A00;
+      animation: fadeInUp 1s ease-out forwards;
+    }
+    footer p {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    /* Keyframe Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    /* Additional Image Margin Classes */
+    .img1 {
+      margin-top: 10%;
+    }
+    .img2 {
+      margin-top: 22%;
+    }
+    .img3 {
+      margin-top: -14%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Game On</h1>
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>Features</li>
+        <li>Games</li>
+        <li>News</li>
+        <li>Community</li>
+        <li>Support</li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-content">
+      <h2>Welcome to the Ultimate Gaming Hub</h2>
+      <p>Experience next-level gaming with epic tournaments, featured games, and a thriving community.</p>
+      <a href="#features" class="btn">Explore Now</a>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="container section" id="features">
+    <h2>Our Features</h2>
+    <p>Discover state-of-the-art gaming technology, immersive tournaments, and interactive tools designed to elevate your gameplay.</p>
+  </div>
+
+  <!-- Featured Games Section -->
+  <div class="container section" id="games">
+    <h2>Featured Games</h2>
+    <div class="games-grid">
+      <a href="C:\Users\Sony\OneDrive\Documents\gameon\battleroyal.html">
+        <div class="game-card" style="animation-delay: 0.3s;">
+          <img src="C:\Users\Sony\Downloads\download__5_-removebg-preview.png" alt="Battle Royale" class="img1">
+          <div class="card-content">
+            <h3>Battle Royale</h3>
+            <p>Join massive battles and prove your survival skills in the ultimate fight for glory. A single drop into unknown chaos, where every step is a risk and every encounter a test of survival.</p>
+          </div>
+        </div>
+      </a>
+      <a href="C:\Users\Sony\OneDrive\Documents\gameon\racing.html">
+        <div class="game-card" style="animation-delay: 0.5s;">
+          <img src="C:\Users\Sony\Downloads\images__1_-removebg-preview.png" alt="Racing Legends" class="img2">
+          <div class="card-content">
+            <h3>Racing Legends</h3>
+            <p>Experience high-speed chases and adrenaline-pumping races on epic tracks. Roaring engines echo through the asphalt stage, where the fearless chase victory at breakneck speeds.</p>
+          </div>
+        </div>
+      </a>
+      <a href="C:\Users\Sony\OneDrive\Documents\gameon\comingsoon.html">
+        <div class="game-card" style="animation-delay: 0.7s;">
+          <img src="C:\Users\Sony\Downloads\images__4_-removebg-preview.png" alt="Fantasy Quest" class="img3">
+          <div class="card-content">
+            <h3>Fantasy Quest</h3>
+            <p>Embark on a magical journey in a world of myths, dragons, and legendary heroes.
+              Embark on a magical journey where every things are magical.
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Latest News Section -->
+  <div class="container section" id="news">
+    <h2>Latest News</h2>
+    <div class="news">
+      <div class="news-article" style="animation-delay: 0.3s;">
+        <h3>New Update Released</h3>
+        <p>We just rolled out an update packed with new features, performance improvements, and bug fixes.</p>
+      </div>
+      <div class="news-article" style="animation-delay: 0.5s;">
+        <h3>Upcoming Tournaments</h3>
+        <p>Get ready for our biggest tournament yet! Register now to compete for epic prizes and glory.</p>
+      </div>
+      <div class="news-article" style="animation-delay: 0.7s;">
+        <h3>Community Spotlight</h3>
+        <p>Meet the top gamers in our community and learn their secrets to success in exclusive interviews.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Section -->
+  <div class="container section" id="community">
+    <h2>Community & Events</h2>
+    <p>Join a vibrant network of gamers from around the world. Share strategies, participate in community events, and make lasting connections.</p>
+    <a href="C:\Users\Sony\OneDrive\Documents\gameon\joinus.html" class="btn">Join Our Community</a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Game On. All rights reserved.</p>
+  </footer>
+
+  <!-- Redirect to Login on Page Refresh -->
+  <script>
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted || (window.performance && performance.navigation.type === 1)) {
+        window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+      }
+    });
+  </script>
+</body>
+</html>

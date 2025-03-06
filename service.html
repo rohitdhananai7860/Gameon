@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services - Game On</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanwVD5V5ZikPFIu0aSw66XGAtGPnQ83byi6ZqEzrZjPq7hIoNEQmQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* ------------------ RESET & GLOBAL STYLES ------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ------------------ HEADER & NAVIGATION ------------------ */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FF7A00;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li {
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li:hover {
+            color: #FF7A00;
+        }
+
+        nav ul li::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #FF7A00;
+            left: 0;
+            bottom: -4px;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li:hover::after {
+            width: 100%;
+        }
+
+        /* ------------------ SERVICES SECTION ------------------ */
+        .services-section {
+            padding: 4rem 2rem;
+            background: #111;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .services-section h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: #FF7A00;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .service-card {
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 2rem;
+            flex: 1 1 300px;
+            max-width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #FF7A00;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-description {
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        /* ------------------ RESPONSIVE DESIGN ------------------ */
+        @media (max-width: 768px) {
+            .services-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 122, 0, 0.9);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 10000;
+            /* Initially hidden offscreen to the left */
+            transform: translateX(-150px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ------------------ HEADER ------------------ -->
+    <header>
+        <div class="logo">Game On</div>
+        <nav>
+            <ul>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\login.html">Home</a></li>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\about.html">About</a></li>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\service.html">Service</a></li>
+                <li><a href="#" class="require-login">Design</a></li>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ------------------ SERVICES SECTION ------------------ -->
+    <section class="services-section">
+        <h1>Our Services</h1>
+        <div class="services-container">
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="service-title">Game Reviews</div>
+                <div class="service-description">
+                    In-depth reviews and insights on the latest games to help you choose your next adventure.
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-users"></i></div>
+                <div class="service-title">Community Engagement</div>
+                <div class="service-description">
+                    Connect with fellow gamers, join forums, and participate in exciting community events.
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-trophy"></i></div>
+                <div class="service-title">Tournaments</div>
+                <div class="service-description">
+                    Compete in thrilling tournaments and show off your skills in a competitive environment.
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-newspaper"></i></div>
+                <div class="service-title">Latest News</div>
+                <div class="service-description">
+                    Stay updated with the latest trends, news, and releases in the gaming world.
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="service-title">Merchandise</div>
+                <div class="service-description">
+                    Explore exclusive game-related merchandise and collectibles to elevate your fandom.
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Toast Notification Element -->
+    <div id="notification"></div>
+
+    <!-- ------------------ JAVASCRIPT FOR INTERACTIVITY ------------------ -->
+    <script>
+        // Function to show toast notifications
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.opacity = 1;
+            // Slide in from left (set transform to 0)
+            notification.style.transform = "translateX(0)";
+            setTimeout(() => {
+                notification.style.opacity = 0;
+                // Slide out to left
+                notification.style.transform = "translateX(-150px)";
+            }, 3000);
+        }
+        window.addEventListener('pageshow', function(event) {
+      if (event.persisted || (window.performance && performance.navigation.type === 1)) {
+        window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+      }
+    });
+    </script>
+</body>
+
+</html>

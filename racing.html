@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Battle Royale - Game On</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Reset & Global Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+    a { text-decoration: none; color: inherit; }
+    /* Header */
+    header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.9);
+      border-bottom: 2px solid #FF7A00;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      animation: fadeInDown 1s ease-out forwards;
+    }
+    header h1 { font-size: 2rem; color: #FF7A00; }
+    #creditsDisplay { font-size: 1.2rem; }
+    #joinUsBtn {
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    #joinUsBtn:hover { transform: scale(1.05); }
+    /* Play Button */
+    #playButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #FF7A00;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 900;
+      transition: transform 0.3s ease;
+    }
+    #playButton:hover { transform: translate(-50%, -50%) scale(1.05); }
+    /* Overlays */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1100;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    .overlay.hidden { display: none; }
+    .overlay h2 { color: #FF7A00; margin-bottom: 1rem; font-size: 2rem; }
+    .overlay button {
+      background-color: #FF7A00;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      margin: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .overlay button:hover { transform: scale(1.05); }
+    .overlay p { margin: 0.5rem 2rem; text-align: center; line-height: 1.5; font-size: 1rem; color: #ccc; }
+    /* Canvas Styles */
+    canvas { display: none; background: #222; margin: 0 auto; display: block; }
+    /* Mobile Controls */
+    #mobileControls {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      width: 90%;
+      max-width: 500px;
+      justify-content: space-around;
+      align-items: center;
+    }
+    #mobileControls button {
+      background: rgba(255,122,0,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      color: #fff;
+      font-size: 1.5rem;
+      margin: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #mobileControls button:active { background: #ff9d42; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Battle Royale</h1>
+    <div id="creditsDisplay">Credits: 100</div>
+    <button id="joinUsBtn" onclick="window.location.href='file:///C:/Users/Sony/OneDrive/Documents/gameon/joinus.html'">Join Us</button>
+  </header>
+
+  <button id="playButton">Play Game</button>
+
+  <!-- Level Selection Overlay -->
+  <div id="levelOverlay" class="overlay hidden">
+    <h2>Select Difficulty</h2>
+    <button data-level="1">Level 1 (Easy) - 20 Credits</button>
+    <button data-level="2">Level 2 (Medium) - 30 Credits</button>
+    <button data-level="3">Level 3 (Hard) - 60 Credits</button>
+  </div>
+
+  <!-- User Manual Overlay -->
+  <div id="manualOverlay" class="overlay hidden">
+    <h2>User Manual</h2>
+    <p>
+      <strong>Desktop Controls:</strong><br>
+      Move: W, A, S, D<br>
+      Shoot: Up Arrow<br><br>
+      <strong>Mobile Controls:</strong><br>
+      Use the on-screen directional buttons and shoot button.
+    </p>
+    <button id="startGameBtn">Start Game</button>
+  </div>
+
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <!-- Mobile On-Screen Controls -->
+  <div id="mobileControls">
+    <button id="leftBtn">&#8592;</button>
+    <button id="upBtn">&#8593;</button>
+    <button id="downBtn">&#8595;</button>
+    <button id="rightBtn">&#8594;</button>
+    <button id="shootBtn">&#128640;</button>
+  </div>
+
+  <script>
+    // Load player's credits from localStorage (default 100)
+    let playerCredits = localStorage.getItem("playerCredits")
+      ? parseInt(localStorage.getItem("playerCredits"))
+      : 100;
+
+    function updateCreditsDisplay() {
+      document.getElementById('creditsDisplay').textContent = "Credits: " + playerCredits;
+    }
+    updateCreditsDisplay();
+
+    function saveCredits() {
+      localStorage.setItem("playerCredits", playerCredits);
+    }
+
+    // Bonus expiry check
+    function checkBonusExpiry() {
+      let bonusExpiry = localStorage.getItem("bonusExpiry");
+      let bonusAmount = localStorage.getItem("bonusAmount");
+      if (bonusExpiry && bonusAmount) {
+        if (Date.now() > parseInt(bonusExpiry)) {
+          if (bonusAmount === "premium") {
+            localStorage.setItem("playerCredits", 100);
+          } else {
+            let currentCredits = localStorage.getItem("playerCredits");
+            currentCredits = parseInt(currentCredits) - parseInt(bonusAmount);
+            if (currentCredits < 0) currentCredits = 0;
+            localStorage.setItem("playerCredits", currentCredits);
+          }
+          localStorage.removeItem("bonusExpiry");
+          localStorage.removeItem("bonusAmount");
+        }
+      }
+    }
+    checkBonusExpiry();
+
+    // DOM Elements
+    const playButton = document.getElementById('playButton');
+    const levelOverlay = document.getElementById('levelOverlay');
+    const manualOverlay = document.getElementById('manualOverlay');
+    const startGameBtn = document.getElementById('startGameBtn');
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const mobileControls = document.getElementById('mobileControls');
+    const leftBtn = document.getElementById('leftBtn');
+    const upBtn = document.getElementById('upBtn');
+    const downBtn = document.getElementById('downBtn');
+    const rightBtn = document.getElementById('rightBtn');
+    const shootBtn = document.getElementById('shootBtn');
+
+    // Game Variables
+    let gameStarted = false;
+    let lastTime = 0;
+    let selectedLevel = 1; // default level
+
+    // Game objects
+    const player = { x: 100, y: 100, width: 40, height: 40, speed: 3, color: '#FF7A00', health: 100, maxHealth: 100 };
+    const bot = { x: 600, y: 100, width: 40, height: 40, speed: 2, color: '#fff', health: 100, maxHealth: 100, shootInterval: 2000, lastShot: 0, direction: 1 };
+    const bullets = [];
+    
+    // Keyboard controls
+    const keys = {};
+    window.addEventListener('keydown', (e) => { keys[e.key.toLowerCase()] = true; });
+    window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+    window.addEventListener('keydown', (e) => { if (e.key === 'ArrowUp') shootBullet(player); });
+
+    // Mobile controls
+    leftBtn.addEventListener('touchstart', () => { keys['a'] = true; });
+    leftBtn.addEventListener('touchend', () => { keys['a'] = false; });
+    rightBtn.addEventListener('touchstart', () => { keys['d'] = true; });
+    rightBtn.addEventListener('touchend', () => { keys['d'] = false; });
+    upBtn.addEventListener('touchstart', () => { keys['w'] = true; });
+    upBtn.addEventListener('touchend', () => { keys['w'] = false; });
+    downBtn.addEventListener('touchstart', () => { keys['s'] = true; });
+    downBtn.addEventListener('touchend', () => { keys['s'] = false; });
+    shootBtn.addEventListener('touchstart', () => { shootBullet(player); });
+
+    function shootBullet(shooter) {
+      const bullet = {
+        x: shooter.x + shooter.width / 2 - 5,
+        y: shooter.y,
+        width: 10,
+        height: 10,
+        speed: 5,
+        color: shooter === player ? '#FF7A00' : '#fff',
+        from: shooter === player ? 'player' : 'bot'
+      };
+      bullets.push(bullet);
+    }
+
+    function rectsCollide(r1, r2) {
+      return !(r2.x > r1.x + r1.width ||
+               r2.x + r2.width < r1.x ||
+               r2.y > r1.y + r1.height ||
+               r2.y + r2.height < r1.y);
+    }
+
+    function drawHealthBar(character) {
+      const barWidth = character.width;
+      const barHeight = 6;
+      const x = character.x;
+      const y = character.y - barHeight - 2;
+      ctx.fillStyle = '#444';
+      ctx.fillRect(x, y, barWidth, barHeight);
+      const healthPercent = character.health / character.maxHealth;
+      ctx.fillStyle = character === player ? '#FF7A00' : '#0f0';
+      ctx.fillRect(x, y, barWidth * healthPercent, barHeight);
+    }
+
+    function update(deltaTime) {
+      if (keys['w']) player.y -= player.speed;
+      if (keys['a']) player.x -= player.speed;
+      if (keys['s']) player.y += player.speed;
+      if (keys['d']) player.x += player.speed;
+      player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
+      player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
+
+      bot.x += bot.speed * bot.direction;
+      if (bot.x <= 0 || bot.x >= canvas.width - bot.width) { bot.direction *= -1; }
+      
+      if (performance.now() - bot.lastShot > bot.shootInterval) {
+        shootBullet(bot);
+        bot.lastShot = performance.now();
+      }
+      
+      for (let i = bullets.length - 1; i >= 0; i--) {
+        const b = bullets[i];
+        if (b.from === 'player') b.y -= b.speed;
+        else b.y += b.speed;
+        if (b.y < 0 || b.y > canvas.height) { bullets.splice(i, 1); continue; }
+        if (b.from === 'player' && rectsCollide(b, bot)) { bot.health -= 10; bullets.splice(i, 1); continue; }
+        if (b.from === 'bot' && rectsCollide(b, player)) { player.health -= 10; bullets.splice(i, 1); continue; }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+      drawHealthBar(player);
+      ctx.fillStyle = bot.color;
+      ctx.fillRect(bot.x, bot.y, bot.width, bot.height);
+      drawHealthBar(bot);
+      bullets.forEach(b => {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, b.width, b.height);
+      });
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px sans-serif';
+      ctx.fillText('Player Health: ' + player.health, 10, 20);
+      ctx.fillText('Bot Health: ' + bot.health, canvas.width - 170, 20);
+    }
+
+    function gameLoop(timestamp) {
+      if (!lastTime) lastTime = timestamp;
+      const deltaTime = timestamp - lastTime;
+      lastTime = timestamp;
+      update(deltaTime);
+      draw();
+      if (player.health > 0 && bot.health > 0) { requestAnimationFrame(gameLoop); }
+      else {
+        if (player.health <= 0) { playerCredits -= 10; }
+        else { playerCredits += 10; }
+        saveCredits();
+        updateCreditsDisplay();
+        ctx.fillStyle = '#FF7A00';
+        ctx.font = '40px sans-serif';
+        const msg = player.health <= 0 ? 'Game Over! You lost.' : 'Congratulations! You won.';
+        ctx.fillText(msg, canvas.width / 2 - 250, canvas.height / 2);
+        setTimeout(() => {
+          if (playerCredits < 20) {
+            playerCredits = 100;
+            saveCredits();
+            window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/joinus.html";
+          } else {
+            window.location.reload();
+          }
+        }, 3000);
+      }
+    }
+
+    playButton.addEventListener('click', () => {
+      playButton.style.display = 'none';
+      levelOverlay.classList.remove('hidden');
+    });
+
+    levelOverlay.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedLevel = parseInt(btn.dataset.level);
+        let cost = 20;
+        if (selectedLevel === 2) { cost = 30; }
+        else if (selectedLevel === 3) { cost = 60; }
+        if (playerCredits < cost) {
+          alert("Insufficient credits to play this level!");
+          window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/joinus.html";
+          return;
+        }
+        playerCredits -= cost;
+        saveCredits();
+        updateCreditsDisplay();
+        if (selectedLevel === 1) { bot.speed = 2; bot.shootInterval = 2000; }
+        else if (selectedLevel === 2) { bot.speed = 3; bot.shootInterval = 1500; }
+        else if (selectedLevel === 3) { bot.speed = 4; bot.shootInterval = 1000; }
+        levelOverlay.classList.add('hidden');
+        manualOverlay.classList.remove('hidden');
+      });
+    });
+
+    startGameBtn.addEventListener('click', () => {
+      manualOverlay.classList.add('hidden');
+      canvas.style.display = 'block';
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        mobileControls.style.display = 'flex';
+      }
+      gameStarted = true;
+      requestAnimationFrame(gameLoop);
+    });
+
+    window.addEventListener('pageshow', function(event) {
+       if (event.persisted || (window.performance && performance.navigation.type === 1)) {
+         window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+       }
+    });
+  </script>
+</body>
+</html>

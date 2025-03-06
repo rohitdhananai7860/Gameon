@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game On - Dynamic Gaming Website</title>
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanwVD5V5ZikPFIu0aSw66XGAtGPnQ83byi6ZqEzrZjPq7hIoNEQmQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* ------------------ RESET & GLOBAL STYLES ------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ------------------ HEADER & NAVIGATION ------------------ */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FF7A00;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li {
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li:hover {
+            color: #FF7A00;
+        }
+
+        nav ul li::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #FF7A00;
+            left: 0;
+            bottom: -4px;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li:hover::after {
+            width: 100%;
+        }
+
+        /* ------------------ HERO SECTION ------------------ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            background: url('https://www.shutterstock.com/image-vector/cool-abstract-joystick-gamepad-hip-260nw-2439048559.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Pulsing dark overlay */
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            animation: pulseOverlay 5s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulseOverlay {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Content container with fade-in effect */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Left side content animation */
+        .left-content {
+            flex: 1 1 600px;
+            padding: 1rem;
+            animation: slideInLeft 1s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .left-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #FF7A00;
+        }
+
+        .left-content p {
+            max-width: 600px;
+            margin-bottom: 2rem;
+            color: #ccc;
+            font-size: 1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cta-buttons .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .btn.join {
+            background-color: #FF7A00;
+            color: #fff;
+        }
+
+        .btn.join:hover {
+            background-color: #ff9d42;
+            transform: scale(1.05);
+        }
+
+        .btn.secondary {
+            background-color: transparent;
+            border: 2px solid #FF7A00;
+            color: #FF7A00;
+        }
+
+        .btn.secondary:hover {
+            background-color: #FF7A00;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* ------------------ LOGIN & SIGNUP FORM ------------------ */
+        .login-form {
+            flex: 0 0 300px;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-left: auto;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            animation: slideInRight 1s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInRight {
+            0% {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .login-form h2 {
+            margin-bottom: 1rem;
+            color: #FF7A00;
+        }
+
+        .login-form label {
+            display: block;
+            margin: 1rem 0 0.3rem;
+            font-weight: 500;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #222;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .login-form input:focus {
+            border-color: #FF7A00;
+        }
+
+        .login-form button {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #FF7A00;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-form button:hover {
+            background-color: #ff9d42;
+            transform: scale(1.02);
+        }
+
+        .signup-text {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .signup-text a {
+            color: #FF7A00;
+            transition: color 0.3s ease;
+        }
+
+        .signup-text a:hover {
+            color: #ff9d42;
+        }
+
+        .social-icons {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #FF7A00;
+            transform: scale(1.1);
+        }
+
+        /* ------------------ TOAST NOTIFICATION (Top Left) ------------------ */
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 122, 0, 0.9);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 10000;
+            transform: translateX(-150px);
+        }
+
+        /* ------------------ RESPONSIVE DESIGN ------------------ */
+        @media (max-width: 992px) {
+            .login-form {
+                margin-left: 0;
+                margin-top: 2rem;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .left-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ------------------ HEADER ------------------ -->
+    <header>
+        <div class="logo">Game On</div>
+        <nav>
+            <ul>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\login.html">Home</a></li>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\about.html">About</a></li>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\service.html">Service</a></li>
+                <li><a href="#" class="require-login">Design</a></li>
+                <li><a href="C:\Users\Sony\OneDrive\Documents\gameon\contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ------------------ HERO SECTION ------------------ -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- Left side: Information & CTA -->
+            <div class="left-content">
+                <h1>Welcome to Game On</h1>
+                <p>
+                    Join a thriving community of gamers, share strategies, and battle it out in epic tournaments.
+                    Unleash your true gaming potential with cutting-edge design and dynamic gameplay experiences.
+                    (as to go back at home page use ctrl+R or just reload it works on evry page )
+                </p>
+                <div class="cta-buttons">
+                    <a href="C:\Users\Sony\OneDrive\Documents\gameon\joinus.html"><button class="btn join">JOIN US</button></a>
+                    <a href="C:\Users\Sony\OneDrive\Documents\gameon\larnmore.html"><button class="btn secondary">Learn More</button></a>
+                </div>
+            </div>
+            <!-- Right side: Login & Signup Forms -->
+            <div class="login-form">
+                <!-- Login Form -->
+                <div id="loginContainer">
+                    <h2>Login Here</h2>
+                    <form id="loginForm">
+                        <label for="username">Enter Username</label>
+                        <input type="text" id="username" placeholder="Username" required />
+                        <label for="password">Enter Password</label>
+                        <input type="password" id="password" placeholder="Password" required />
+                        <button type="submit">Login</button>
+                    </form>
+                    <div class="signup-text">
+                        Don’t have an account? <a href="#" id="showSignup">Sign up here</a>
+                    </div>
+                </div>
+                <!-- Signup Form (hidden by default) -->
+                <div id="signupContainer" style="display: none;">
+                    <h2>Sign Up</h2>
+                    <form id="signupForm">
+                        <label for="newUsername">Enter Username</label>
+                        <input type="text" id="newUsername" placeholder="Username" required />
+                        <label for="newPassword">Enter Password</label>
+                        <input type="password" id="newPassword" placeholder="Password" required />
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    <div class="signup-text">
+                        Already have an account? <a href="#" id="backToLogin">Login here</a>
+                    </div>
+                </div>
+                <!-- Social Icons (optional) -->
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification Element -->
+    <div id="notification"></div>
+
+    <!-- ------------------ JAVASCRIPT FOR INTERACTIVITY ------------------ -->
+    <!-- ... (rest of your HTML remains the same) ... -->
+
+    <script>
+        // Function to show toast notifications
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.opacity = 1;
+            notification.style.transform = "translateX(0)";
+            setTimeout(() => {
+                notification.style.opacity = 0;
+                notification.style.transform = "translateX(-150px)";
+            }, 3000);
+        }
+
+        // Check if credentials exist in localStorage; if not, set default user
+        let users = JSON.parse(localStorage.getItem('users')) || {};
+        if (Object.keys(users).length === 0) {
+            users['rohit'] = '7860';
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        // Toggle between login and signup forms
+        const loginContainer = document.getElementById('loginContainer');
+        const signupContainer = document.getElementById('signupContainer');
+
+        document.getElementById('showSignup').addEventListener('click', function (e) {
+            e.preventDefault();
+            loginContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+        });
+
+        document.getElementById('backToLogin').addEventListener('click', function (e) {
+            e.preventDefault();
+            signupContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username.trim() === '' || password.trim() === '') {
+                const loginDiv = document.querySelector('.login-form');
+                loginDiv.classList.add('shake');
+                setTimeout(() => {
+                    loginDiv.classList.remove('shake');
+                }, 500);
+            } else {
+                let users = JSON.parse(localStorage.getItem('users'));
+                if (users[username] && users[username] === password) {
+                    // Show custom login successful message
+                    showNotification("Login successful ,thanks for visting game on!");
+                    // Redirect after a short delay (e.g., 3 seconds)
+                    setTimeout(() => {
+                        window.location.href = "C:\\Users\\Sony\\OneDrive\\Documents\\gameon\\maincontaint.html";
+                    }, 3000);
+                } else {
+                    showNotification("Invalid username or passwords!");
+                }
+            }
+        });
+
+        // Signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            if (newUsername.trim() === '' || newPassword.trim() === '') {
+                const signupDiv = document.getElementById('signupContainer');
+                signupDiv.classList.add('shake');
+                setTimeout(() => {
+                    signupDiv.classList.remove('shake');
+                }, 500);
+            } else {
+                let users = JSON.parse(localStorage.getItem('users')) || {};
+                if (users[newUsername]) {
+                    showNotification("Username already exists!");
+                } else {
+                    users[newUsername] = newPassword;
+                    localStorage.setItem('users', JSON.stringify(users));
+                    showNotification("Sign up successful! Please login.");
+                    document.getElementById('newUsername').value = '';
+                    document.getElementById('newPassword').value = '';
+                    setTimeout(() => {
+                        signupContainer.style.display = 'none';
+                        loginContainer.style.display = 'block';
+                    }, 2000);
+                }
+            }
+        });
+
+        // Inject shake animation keyframes
+        const style = document.createElement('style');
+        style.innerHTML = `
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+      }
+      .shake {
+        animation: shake 0.5s;
+      }
+    `;
+        document.head.appendChild(style);
+
+        // Dummy notification for links that require login
+        document.querySelectorAll('a.require-login').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                showNotification('Please login first');
+            });
+        });
+        window.addEventListener('pageshow', function(event) {
+      if (event.persisted || (window.performance && performance.navigation.type === 1)) {
+        window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+      }
+    });
+    </script>
+</body>
+
+</html>

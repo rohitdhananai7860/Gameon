@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Join Us - Game On Packs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Reset & Global Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: #fff;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    
+    /* Header Styles */
+    header {
+      padding: 1rem 2rem;
+      background-color: rgba(0, 0, 0, 0.85);
+      border-bottom: 2px solid #FF7A00;
+      text-align: center;
+      animation: fadeInDown 1s ease-out forwards;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: #FF7A00;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+    
+    /* Timer Display */
+    #timerDisplay {
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      color: #FF7A00;
+    }
+    
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    /* Pack Wrapper */
+    .pack-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      animation: fadeIn 1s ease-out forwards;
+    }
+    
+    /* Pack Card */
+    .pack {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 1px solid #444;
+      border-radius: 10px;
+      width: 320px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    .pack:nth-child(1) { animation-delay: 0.3s; }
+    .pack:nth-child(2) { animation-delay: 0.5s; }
+    .pack:nth-child(3) { animation-delay: 0.7s; }
+    .pack:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(255, 122, 0, 0.7);
+    }
+    
+    .pack h2 {
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      color: #FF7A00;
+    }
+    .pack p.description {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.4;
+    }
+    
+    .pack .price {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #FF7A00;
+      animation: pulse 2s infinite;
+    }
+    .pack .credits-info {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+    /* Remove bullet points for benefits list */
+    .benefits { list-style: none; padding: 0; margin: 0 0 1.5rem 0; }
+    .benefits li { margin-bottom: 0.5rem; }
+    
+    .pack button {
+      background-color: #FF7A00;
+      border: none;
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .pack button:hover {
+      background-color: #ff9d42;
+      transform: scale(1.05);
+    }
+    
+    /* Keyframe Animations */
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .pack-wrapper { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Join Us</h1>
+    <p>Choose the pack that suits your gaming lifestyle and unlock exclusive benefits!</p>
+  </header>
+  
+  <!-- Timer Display (visible for Basic & Standard packs) -->
+  <div id="timerDisplay"></div>
+  
+  <div class="container">
+    <div class="pack-wrapper">
+      <!-- Basic Pack -->
+      <div class="pack">
+        <h2>Basic Pack</h2>
+        <p class="description">Ideal for beginners. Get started with the essentials to join our community and enjoy core features.</p>
+        <div class="price">$9.99/mo</div>
+        <div class="credits-info">Credits Offered: 250</div>
+        <ul class="benefits">
+          <li>Access to basic tournaments</li>
+          <li>Community chat</li>
+          <li>Weekly tips and tricks</li>
+        </ul>
+        <button id="buyBasic">Buy Now</button>
+      </div>
+      <!-- Standard Pack -->
+      <div class="pack">
+        <h2>Standard Pack</h2>
+        <p class="description">Perfect for the avid gamer. Unlock extra features and enjoy more competitions and rewards.</p>
+        <div class="price">$19.99/mo</div>
+        <div class="credits-info">Credits Offered: 1,000</div>
+        <ul class="benefits">
+          <li>Exclusive tournaments</li>
+          <li>Priority support</li>
+          <li>Monthly giveaways</li>
+        </ul>
+        <button id="buyStandard">Buy Now</button>
+      </div>
+      <!-- Premium Pack -->
+      <div class="pack">
+        <h2>Premium Pack</h2>
+        <p class="description">The ultimate experience. Enjoy VIP access, exclusive events, and top-tier rewards.</p>
+        <div class="price">$29.99/mo</div>
+        <div class="credits-info">Credits Offered: Unlimited</div>
+        <ul class="benefits">
+          <li>VIP event access</li>
+          <li>Personalized coaching</li>
+          <li>Exclusive merchandise</li>
+        </ul>
+        <button id="buyPremium">Buy Now</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    let countdownInterval;
+
+    // Start or resume the countdown timer based on the expiry timestamp
+    function startCountdown(expiryTimestamp) {
+      const timerDisplay = document.getElementById("timerDisplay");
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        let remaining = Math.floor((expiryTimestamp - Date.now()) / 1000);
+        if (remaining < 0) remaining = 0;
+        timerDisplay.textContent = formatTime(remaining);
+        if (remaining <= 0) {
+          clearInterval(countdownInterval);
+          timerDisplay.textContent = "Time's up!";
+          processBonusExpiration();
+        }
+      }, 1000);
+    }
+
+    // Format seconds as MM:SS
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return (minutes < 10 ? "0" + minutes : minutes) + ":" + (secs < 10 ? "0" + secs : secs);
+    }
+
+    // When bonus expires, deduct bonus credits (if not premium)
+    function processBonusExpiration() {
+      let bonusAmount = localStorage.getItem("bonusAmount");
+      let currentCredits = localStorage.getItem("playerCredits");
+      if (bonusAmount && currentCredits !== "unlimited") {
+        currentCredits = parseInt(currentCredits) - parseInt(bonusAmount);
+        if (currentCredits < 0) currentCredits = 0;
+        localStorage.setItem("playerCredits", currentCredits);
+        alert("The bonus credits have expired and have been deducted.");
+      }
+      localStorage.removeItem("bonusExpiry");
+      localStorage.removeItem("bonusAmount");
+    }
+
+    // Purchase plan function with a 3-minute bonus timer
+    function purchasePlan(plan) {
+      clearInterval(countdownInterval);
+      document.getElementById("timerDisplay").textContent = "";
+
+      let currentCredits = localStorage.getItem("playerCredits");
+      if (currentCredits === null) {
+        currentCredits = 0;
+      } else if (currentCredits !== "unlimited") {
+        currentCredits = parseInt(currentCredits);
+      }
+      
+      let bonus = 0;
+      if (plan === "basic") {
+        if (currentCredits === "unlimited") {
+          alert("You already have Unlimited Credits with Premium Pack!");
+          return;
+        }
+        bonus = 250;
+        alert("Basic Pack purchased! 250 credits have been added to your account for 3 minutes.");
+      } else if (plan === "standard") {
+        if (currentCredits === "unlimited") {
+          alert("You already have Unlimited Credits with Premium Pack!");
+          return;
+        }
+        bonus = 1000;
+        alert("Standard Pack purchased! 1,000 credits have been added to your account for 3 minutes.");
+      } else if (plan === "premium") {
+        currentCredits = "unlimited";
+        alert("Premium Pack purchased! You now have Unlimited Credits.");
+        localStorage.setItem("playerCredits", currentCredits);
+        localStorage.removeItem("bonusExpiry");
+        localStorage.removeItem("bonusAmount");
+        return;
+      }
+      
+      // Add bonus credits and save to localStorage
+      currentCredits += bonus;
+      localStorage.setItem("playerCredits", currentCredits);
+
+      // Save bonus expiry (3 minutes from now) and bonus amount in localStorage
+      const bonusExpiry = Date.now() + 3 * 60 * 1000;
+      localStorage.setItem("bonusExpiry", bonusExpiry);
+      localStorage.setItem("bonusAmount", bonus);
+
+      // Start the countdown timer
+      startCountdown(bonusExpiry);
+    }
+    
+    // On page load, resume timer if active
+    window.addEventListener("load", () => {
+      const bonusExpiry = parseInt(localStorage.getItem("bonusExpiry") || "0");
+      if (bonusExpiry && bonusExpiry > Date.now()) {
+        startCountdown(bonusExpiry);
+      } else if (bonusExpiry && bonusExpiry <= Date.now()) {
+        processBonusExpiration();
+      }
+    });
+    
+    document.getElementById("buyBasic").addEventListener("click", () => purchasePlan("basic"));
+    document.getElementById("buyStandard").addEventListener("click", () => purchasePlan("standard"));
+    document.getElementById("buyPremium").addEventListener("click", () => purchasePlan("premium"));
+    
+    // Redirect on page refresh (if needed)
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted || (window.performance && performance.navigation.type === 1)) {
+        window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+      }
+    });
+  </script>
+</body>
+</html>

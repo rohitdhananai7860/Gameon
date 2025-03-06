@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fantasy Quest - Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Reset & Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #000, #222);
+      color: #fff;
+      overflow-x: hidden;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    /* Header */
+    header {
+      margin-bottom: 2rem;
+      animation: fadeInDown 1.5s ease-out forwards;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: #FF7A00;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-top: 10px;
+    }
+    
+    /* Coming Soon Text */
+    .coming-soon {
+      font-size: 4rem;
+      color: #FF7A00;
+      margin: 2rem 0;
+      animation: bounce 2s infinite;
+    }
+    
+    /* Demo Video Container */
+    .demo-container {
+      width: 90%;
+      max-width: 600px;
+      margin: 2rem auto;
+      border: 4px solid #FF7A00;
+      border-radius: 10px;
+      overflow: hidden;
+      animation: fadeInUp 1.5s ease-out forwards;
+      box-shadow: 0 0 20px rgba(255, 122, 0, 0.7);
+    }
+    .demo-container video {
+      width: 100%;
+      display: block;
+    }
+    
+    /* "Coming Soon" Animation Keyframes */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+    
+    /* Footer */
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      animation: fadeIn 1.5s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <h1>Fantasy Quest</h1>
+    <p>A new adventure is about to begin...</p>
+  </header>
+  
+  <!-- Coming Soon Text -->
+  <div class="coming-soon">
+    Coming Soon...
+  </div>
+  
+  <!-- Demo Video Container -->
+  <div class="demo-container">
+    <!-- Replace the src below with your demo ad video source -->
+    <video controls autoplay loop muted>
+      <source src="demo-ad.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Fantasy Quest. All rights reserved.
+  </footer>
+  <script>
+     // // Redirect to Login on Page Refresh
+     window.addEventListener('pageshow', function(event) {
+       if (event.persisted || (window.performance && performance.navigation.type === 1)) {
+         window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+       }
+     });
+  </script>
+</body>
+</html>
