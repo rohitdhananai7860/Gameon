@@ -125,7 +125,7 @@
   <header>
     <h1>Battle Royale</h1>
     <div id="creditsDisplay">Credits: 100</div>
-    <button id="joinUsBtn" onclick="window.location.href='file:///C:/Users/Sony/OneDrive/Documents/gameon/joinus.html'">Join Us</button>
+    <button id="joinUsBtn" onclick="window.location.href='https://rohitdhananai7860.github.io/Gameon/joinus'">Join Us</button>
   </header>
 
   <button id="playButton">Play Game</button>
@@ -335,7 +335,7 @@
           if (playerCredits < 20) {
             playerCredits = 100;
             saveCredits();
-            window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/joinus.html";
+            window.location.href = "https://rohitdhananai7860.github.io/Gameon/joinus";
           } else {
             window.location.reload();
           }
@@ -356,7 +356,7 @@
         else if (selectedLevel === 3) { cost = 60; }
         if (playerCredits < cost) {
           alert("Insufficient credits to play this level!");
-          window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/joinus.html";
+          window.location.href = "https://rohitdhananai7860.github.io/Gameon/joinus";
           return;
         }
         playerCredits -= cost;
@@ -382,7 +382,7 @@
 
     window.addEventListener('pageshow', function(event) {
        if (event.persisted || (window.performance && performance.navigation.type === 1)) {
-         window.location.href = "file:///C:/Users/Sony/OneDrive/Documents/gameon/login.html";
+         window.location.href = "https://rohitdhananai7860.github.io/Gameon/login";
        }
     });
   </script>
